@@ -106,13 +106,32 @@ const modules = [
       "She should recognize NERSC and JGI as separate Berkeley Lab paths rather than one generic LBNL pitch.",
       "She should stay in orchestrator mode and avoid pretending to be the architect."
     ],
-    question: "Which account motion should be treated as cleanup and site-operations rather than open science?",
-    options: [
-      "Hanford",
-      "SLAC",
-      "NERSC"
-    ],
-    correctIndex: 0
+    quizQuestions: [
+      {
+        question: "Which account motion should be treated as cleanup and site-operations rather than open science?",
+        options: ["Hanford", "SLAC", "NERSC"],
+        correctIndex: 0
+      },
+      {
+        question: "Which Berkeley Lab sub-account should a rep associate most directly with HPC and scientific computing demand?",
+        options: ["JGI", "NERSC", "BPA"],
+        correctIndex: 1
+      },
+      {
+        question: "Which account is best described as a utility-style motion instead of a lab-style motion?",
+        options: ["BPA", "LBNL", "LLNL"],
+        correctIndex: 0
+      },
+      {
+        question: "What is the right first move in a western DOE account conversation?",
+        options: [
+          "Start with a generic storage pitch for all DOE entities",
+          "Classify the account by mission and environment before positioning",
+          "Avoid mission questions until engineering joins"
+        ],
+        correctIndex: 1
+      }
+    ]
   },
   {
     id: "procurement",
@@ -221,29 +240,153 @@ const modules = [
       "She should separate punch-out and hosted marketplace motions because the growth strategy and control points differ.",
       "She should bring CTG in before security, architecture, and contract-vehicle questions become blockers."
     ],
-    question: "What should the rep clarify when a site says it buys through a marketplace?",
-    options: [
-      "Whether the site uses a punch-out supplier-direct catalog or a hosted catalog",
-      "Whether procurement can be ignored until after technical approval",
-      "Whether every marketplace order is treated as a federal prime contract"
-    ],
-    correctIndex: 0
+    quizQuestions: [
+      {
+        question: "What is usually the most practical route for many DOE opportunities?",
+        options: [
+          "Direct manufacturer-to-government every time",
+          "M&O prime or subcontract pathway with CTG engaged early",
+          "Avoid procurement until after the technical win"
+        ],
+        correctIndex: 1
+      },
+      {
+        question: "What should the rep clarify when a site says it buys through a marketplace?",
+        options: [
+          "Whether the site uses a punch-out supplier-direct catalog or a hosted catalog",
+          "Whether procurement can be ignored until after technical approval",
+          "Whether every marketplace order is treated as a federal prime contract"
+        ],
+        correctIndex: 0
+      },
+      {
+        question: "Why does Q-clearance language matter in DOE sales?",
+        options: [
+          "Because it can affect which people, partners, and facilities can participate",
+          "Because it only matters after award",
+          "Because it replaces the need for procurement review"
+        ],
+        correctIndex: 0
+      },
+      {
+        question: "What should a rep do if an ICPT or SCMC path may already exist?",
+        options: [
+          "Ignore it and build a fresh sourcing path",
+          "Ask whether an approved agreement already covers the commodity or reseller motion",
+          "Wait for legal to bring it up at the end"
+        ],
+        correctIndex: 1
+      }
+    ]
   },
   {
     id: "storage-environments",
     number: 3,
     title: "Storage in DOE",
-    outcome: "Maps NetApp to HPC, enterprise, and classified mission environments.",
-    summary: "Differentiate storage conversations by environment: throughput-heavy HPC and AI, general enterprise workloads, and air-gapped mission systems with strict compliance constraints.",
-    scenario: "A DOE contact mentions AI training, simulation output, and a separate classified enclave. You need to frame the conversation without over-generalizing one platform to every need.",
-    say: "It sounds like there may be three different conversations here: high-throughput research storage, enterprise support systems, and mission-isolated environments. We should qualify them separately.",
-    question: "Which environment usually emphasizes throughput over latency?",
-    options: [
-      "HPC and AI training environments",
-      "General collaboration file shares",
-      "Only small classified clusters"
+    outcome: "Maps NetApp credibly across DOE HPC, enterprise, and classified storage environments.",
+    summary: "Differentiate the three core DOE storage motions: throughput-led HPC and AI pipelines, enterprise platforms that value unified file and block services, and classified environments where isolation, control, and compliance shape the design.",
+    scenario: "A DOE contact mentions AI training data, simulation checkpoints, enterprise collaboration shares, and a separate air-gapped enclave. You need to frame NetApp by environment without pretending one answer fits all four needs.",
+    say: "It sounds like we should treat this as at least three motions: a high-throughput HPC and AI data path, a more standard enterprise storage path, and a separate classified environment with its own controls and constraints.",
+    mustKnow: [
+      "HPC and AI environments usually care more about aggregate throughput, scalable capacity, and data pipeline efficiency than about classic enterprise latency talking points.",
+      "Enterprise storage conversations often center on mixed protocols, operational simplicity, cyber resilience, and consolidation across business workloads.",
+      "Classified and mission storage environments are often smaller and more isolated, but the compliance and security expectations are much higher.",
+      "NetApp should be positioned by workload and environment: not every DOE conversation is an AFF conversation, an E-Series conversation, or an object conversation.",
+      "NetApp has official HPC and AI positioning around scale, reliability, and ecosystem integration, while ONTAP supports unified file, block, and object protocols that matter in enterprise and mixed environments."
     ],
-    correctIndex: 0
+    priorityHeading: "Storage Qualification Flow",
+    priorityOrder: [
+      { account: "1. Identify the Environment", note: "Is this HPC and AI, enterprise IT, or a classified mission environment?" },
+      { account: "2. Qualify the Access Pattern", note: "Ask whether the workload is mostly file, object, block, or a combination across teams." },
+      { account: "3. Match the Buying Driver", note: "Determine whether the customer is chasing throughput, operational simplicity, cyber resilience, or enclave control." },
+      { account: "4. Map NetApp by Fit", note: "Use the right NetApp lens for the environment instead of forcing one family across every requirement." },
+      { account: "5. Pull CTG Into Design", note: "Bring CTG in once the storage motion is clear and the architecture needs to be validated." }
+    ],
+    comparisonHeading: "DOE Storage Environments",
+    comparisonColumns: ["Environment", "Primary Need", "Typical Signal", "NetApp Lens", "Seller Move"],
+    comparisonRows: [
+      {
+        account: "HPC / AI",
+        category: "High throughput and scale",
+        mission: "Training sets, simulation output, checkpointing, large sequential data movement",
+        priority: "Throughput and growth dominate the discussion",
+        motion: "Position NetApp HPC and AI strengths, then bring CTG into architecture"
+      },
+      {
+        account: "Enterprise",
+        category: "Mixed workloads and protocol flexibility",
+        mission: "File shares, virtualization, business systems, collaboration, cyber resilience",
+        priority: "Operational simplicity and broad consolidation matter",
+        motion: "Position ONTAP and unified data services around real workload mix"
+      },
+      {
+        account: "Classified / Mission",
+        category: "Isolation and control",
+        mission: "Air-gapped or tightly governed environments with strict security expectations",
+        priority: "Security and operational control shape the design",
+        motion: "Treat as a separate enclave conversation and avoid over-generalizing from open environments"
+      },
+      {
+        account: "Object / Data Lake",
+        category: "Unstructured scale",
+        mission: "Large data sets, archives, analytics repositories, AI-adjacent object use cases",
+        priority: "Scale and lifecycle management become more important",
+        motion: "Use object positioning where it truly fits instead of assuming file alone"
+      }
+    ],
+    coaching: [
+      "The rep should separate HPC, enterprise, and classified conversations instead of collapsing them into a single storage pitch.",
+      "She should know the difference between a throughput-led problem and a mixed-enterprise operations problem.",
+      "She should be comfortable saying 'this may be multiple storage conversations' before architecture gets too detailed.",
+      "She should use NetApp as an environment-specific fit, not as a one-size-fits-all answer."
+    ],
+    quizQuestions: [
+      {
+        question: "Which environment usually emphasizes throughput over latency in DOE storage conversations?",
+        options: [
+          "HPC and AI training environments",
+          "General collaboration file shares",
+          "Only small classified clusters"
+        ],
+        correctIndex: 0
+      },
+      {
+        question: "What is the strongest first move when a customer mentions AI training, enterprise shares, and a classified enclave in one call?",
+        options: [
+          "Recommend one storage platform for everything immediately",
+          "Break the discussion into separate environment-specific motions",
+          "Avoid the topic until pricing is requested"
+        ],
+        correctIndex: 1
+      },
+      {
+        question: "Which statement best fits enterprise storage in this training?",
+        options: [
+          "It usually involves mixed workloads, operational simplicity, and protocol flexibility",
+          "It only matters if the lab has no HPC at all",
+          "It is mainly about air-gapped mission systems"
+        ],
+        correctIndex: 0
+      },
+      {
+        question: "When should object storage enter the conversation?",
+        options: [
+          "Only when the customer mentions backup",
+          "When unstructured scale, data-lake behavior, or large object-oriented workflows are part of the requirement",
+          "Never in DOE environments"
+        ],
+        correctIndex: 1
+      },
+      {
+        question: "What is the seller's role when the storage fit becomes architectural?",
+        options: [
+          "Finalize the design alone to preserve speed",
+          "Use the right NetApp lens and bring CTG in to validate the architecture",
+          "Hand the meeting over completely and stop leading"
+        ],
+        correctIndex: 1
+      }
+    ]
   },
   {
     id: "protocols",
@@ -463,11 +606,11 @@ const storageKey = "doe-sales-training-state";
 function getDefaultState() {
   const moduleState = {};
   modules.forEach((module) => {
+    const quizQuestions = getQuizQuestions(module);
     moduleState[module.id] = {
       complete: false,
       confidence: 3,
-      selectedAnswer: null,
-      correct: false
+      quizAnswers: quizQuestions.map(() => null)
     };
   });
   return { moduleState };
@@ -500,13 +643,55 @@ function saveState() {
 
 function getModuleStatus(moduleId) {
   const record = state.moduleState[moduleId];
+  const anyQuizAnswered = Array.isArray(record.quizAnswers)
+    ? record.quizAnswers.some((answer) => answer !== null)
+    : record.selectedAnswer !== null;
   if (record.complete) {
     return { label: "Complete", className: "complete" };
   }
-  if (record.selectedAnswer !== null || record.confidence !== 3) {
+  if (anyQuizAnswered || record.confidence !== 3) {
     return { label: "In Progress", className: "in-progress" };
   }
   return { label: "Not Started", className: "not-started" };
+}
+
+function getQuizQuestions(module) {
+  if (module.quizQuestions?.length) {
+    return module.quizQuestions;
+  }
+
+  if (module.question && module.options) {
+    return [{
+      question: module.question,
+      options: module.options,
+      correctIndex: module.correctIndex
+    }];
+  }
+
+  return [];
+}
+
+function getQuizAnswers(record, questionCount) {
+  if (Array.isArray(record.quizAnswers) && record.quizAnswers.length === questionCount) {
+    return record.quizAnswers;
+  }
+
+  if (Array.isArray(record.quizAnswers) && record.quizAnswers.length) {
+    return Array.from({ length: questionCount }, (_, index) => record.quizAnswers[index] ?? null);
+  }
+
+  if (record.selectedAnswer !== undefined && questionCount > 0) {
+    return [record.selectedAnswer, ...Array.from({ length: questionCount - 1 }, () => null)];
+  }
+
+  return Array.from({ length: questionCount }, () => null);
+}
+
+function getQuizCorrectCount(moduleId) {
+  const module = modules.find((item) => item.id === moduleId);
+  const questions = getQuizQuestions(module);
+  const answers = getQuizAnswers(state.moduleState[moduleId], questions.length);
+  return questions.reduce((count, question, index) => count + (answers[index] === question.correctIndex ? 1 : 0), 0);
 }
 
 function renderModules() {
@@ -519,6 +704,8 @@ function renderModules() {
     const card = fragment.querySelector(".module-card");
     const record = state.moduleState[module.id];
     const status = getModuleStatus(module.id);
+    const quizQuestions = getQuizQuestions(module);
+    const quizAnswers = getQuizAnswers(record, quizQuestions.length);
 
     fragment.querySelector(".module-kicker").textContent = `Module ${module.number}`;
     fragment.querySelector(".module-title").textContent = module.title;
@@ -547,30 +734,49 @@ function renderModules() {
       renderAll();
     });
 
-    fragment.querySelector(".quiz-question").textContent = module.question;
-    const optionsContainer = fragment.querySelector(".quiz-options");
-    module.options.forEach((option, optionIndex) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "quiz-option";
-      button.textContent = option;
+    const quizList = fragment.querySelector(".quiz-list");
+    quizQuestions.forEach((question, questionIndex) => {
+      const quizItem = document.createElement("div");
+      quizItem.className = "quiz-item";
 
-      if (record.selectedAnswer !== null) {
-        if (optionIndex === module.correctIndex) {
-          button.classList.add("correct");
-        } else if (optionIndex === record.selectedAnswer && !record.correct) {
-          button.classList.add("incorrect");
+      const quizMeta = document.createElement("p");
+      quizMeta.className = "quiz-meta";
+      quizMeta.textContent = `Question ${questionIndex + 1}`;
+
+      const prompt = document.createElement("p");
+      prompt.className = "quiz-question";
+      prompt.textContent = question.question;
+
+      const optionsContainer = document.createElement("div");
+      optionsContainer.className = "quiz-options";
+
+      question.options.forEach((option, optionIndex) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "quiz-option";
+        button.textContent = option;
+
+        if (quizAnswers[questionIndex] !== null) {
+          if (optionIndex === question.correctIndex) {
+            button.classList.add("correct");
+          } else if (optionIndex === quizAnswers[questionIndex]) {
+            button.classList.add("incorrect");
+          }
         }
-      }
 
-      button.addEventListener("click", () => {
-        state.moduleState[module.id].selectedAnswer = optionIndex;
-        state.moduleState[module.id].correct = optionIndex === module.correctIndex;
-        saveState();
-        renderAll();
+        button.addEventListener("click", () => {
+          const nextAnswers = getQuizAnswers(state.moduleState[module.id], quizQuestions.length);
+          nextAnswers[questionIndex] = optionIndex;
+          state.moduleState[module.id].quizAnswers = nextAnswers;
+          saveState();
+          renderAll();
+        });
+
+        optionsContainer.appendChild(button);
       });
 
-      optionsContainer.appendChild(button);
+      quizItem.append(quizMeta, prompt, optionsContainer);
+      quizList.appendChild(quizItem);
     });
 
     const markCompleteButton = fragment.querySelector(".mark-complete-button");
@@ -708,18 +914,20 @@ function renderScenario() {
 function renderSnapshot() {
   const list = document.getElementById("snapshotStats");
   const completedCount = modules.filter((module) => state.moduleState[module.id].complete).length;
-  const correctCount = modules.filter((module) => state.moduleState[module.id].correct).length;
+  const totalQuestions = modules.reduce((total, module) => total + getQuizQuestions(module).length, 0);
+  const correctCount = modules.reduce((total, module) => total + getQuizCorrectCount(module.id), 0);
   const averageConfidence = (
     modules.reduce((total, module) => total + state.moduleState[module.id].confidence, 0) / modules.length
   ).toFixed(1);
   const readyModules = modules.filter((module) => {
     const record = state.moduleState[module.id];
-    return record.complete && record.correct && record.confidence >= 4;
+    const questions = getQuizQuestions(module);
+    return record.complete && getQuizCorrectCount(module.id) === questions.length && record.confidence >= 4;
   }).length;
 
   list.innerHTML = `
     <li><strong>${completedCount}/${modules.length}</strong> modules completed</li>
-    <li><strong>${correctCount}/${modules.length}</strong> quizzes answered correctly</li>
+    <li><strong>${correctCount}/${totalQuestions}</strong> quiz questions answered correctly</li>
     <li><strong>${averageConfidence}/5</strong> average self-reported confidence</li>
     <li><strong>${readyModules}</strong> modules marked as conversation-ready</li>
   `;
@@ -735,7 +943,11 @@ function renderDashboard() {
     .filter((module) => state.moduleState[module.id].confidence <= 2)
     .map((module) => module.title);
   const missedQuizModules = modules
-    .filter((module) => state.moduleState[module.id].selectedAnswer !== null && !state.moduleState[module.id].correct)
+    .filter((module) => {
+      const questions = getQuizQuestions(module);
+      const answers = getQuizAnswers(state.moduleState[module.id], questions.length);
+      return answers.some((answer, index) => answer !== null && answer !== questions[index].correctIndex);
+    })
     .map((module) => module.title);
   const criticalUnfinished = [
     "Federal Fiscal Cycles",

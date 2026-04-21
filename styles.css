@@ -325,6 +325,29 @@ button:disabled {
   margin-top: 10px;
 }
 
+.quiz-list {
+  display: grid;
+  gap: 16px;
+}
+
+.quiz-item + .quiz-item {
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+.quiz-question {
+  margin: 0;
+}
+
+.quiz-meta {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+}
+
 .quiz-option {
   text-align: left;
   padding: 12px 14px;
