@@ -127,16 +127,18 @@ const modules = [
       "DOE is unusual because most of its procurement base flows through Management and Operating contractors, not just direct federal prime awards.",
       "For many DOE opportunities, the practical path is prime-to-sub rather than direct manufacturer-to-government.",
       "DOE uses L and Q access authorizations instead of the more familiar Secret and Top Secret language used elsewhere.",
-      "SCMC matters because it simplifies buying and creates multi-site commodity agreements for DOE Environmental Management and NNSA prime contractors."
+      "ICPT is a DOE strategic-sourcing path built for M&O contractor usage, with pre-negotiated agreements that can simplify subcontract ordering.",
+      "SCMC matters because it simplifies buying, supports online catalogs, and creates multi-site commodity agreements for DOE Environmental Management and NNSA prime contractors.",
+      "Marketplace buying is now its own motion: reps need to distinguish punch-out supplier-direct catalogs from hosted catalogs because the sales and enablement work is different."
     ],
     priorityHeading: "How Deals Usually Move",
     priorityOrder: [
       { account: "1. Qualify the Path", note: "Is this a direct federal acquisition, an M&O prime-led buy, or a subcontracting motion?" },
       { account: "2. Confirm Security", note: "Determine early whether L or Q access, cleared personnel, or cleared facilities will shape the pursuit." },
-      { account: "3. Map the Prime", note: "Identify which site prime, integrator, or contract vehicle controls execution." },
-      { account: "4. Bring CTG Early", note: "CTG should be involved before architecture, compliance, and execution details harden." },
-      { account: "5. Validate TAA", note: "Confirm country-of-origin and supply-chain compliance before the deal gets late-stage attention." },
-      { account: "6. Check SCMC", note: "Ask whether an SCMC agreement or enterprise sourcing motion affects how the buy will happen." }
+      { account: "3. Map the Vehicle", note: "Identify whether the buy will move through an M&O prime, ICPT agreement, SCMC agreement, or another approved path." },
+      { account: "4. Separate Marketplace Motions", note: "Ask whether the site buys through a punch-out supplier-direct catalog or a hosted catalog because onboarding and account control differ." },
+      { account: "5. Bring CTG Early", note: "CTG should be involved before architecture, compliance, and execution details harden." },
+      { account: "6. Validate TAA", note: "Confirm country-of-origin and supply-chain compliance before the deal gets late-stage attention." }
     ],
     comparisonHeading: "Acronyms And Pathways",
     comparisonColumns: ["Term", "What It Means", "Why The Seller Cares", "Field Signal", "Action"],
@@ -177,6 +179,13 @@ const modules = [
         motion: "Ask if an existing sourcing channel already exists"
       },
       {
+        account: "ICPT",
+        category: "Integrated Contractor Purchasing Team",
+        mission: "DOE strategic-sourcing agreements built for M&O contractor usage",
+        priority: "Pre-negotiated agreements may let sites place subcontract orders faster",
+        motion: "Ask whether an ICPT agreement already covers the commodity or reseller path"
+      },
+      {
         account: "M&O Prime",
         category: "Management and Operating contractor",
         mission: "DOE's dominant operating model across many sites",
@@ -189,21 +198,36 @@ const modules = [
         mission: "Often the real route into DOE execution",
         priority: "CTG and site primes become central to the deal",
         motion: "Align to the prime's execution model early"
+      },
+      {
+        account: "Punch-Out Marketplace",
+        category: "Supplier-direct electronic catalog",
+        mission: "Buyer shops from the supplier's connected catalog within the site's marketplace flow",
+        priority: "Catalog integration and supplier-direct experience drive adoption",
+        motion: "Treat this as a scalable site-by-site channel worth expanding"
+      },
+      {
+        account: "Hosted Catalog",
+        category: "Marketplace catalog managed inside the platform",
+        mission: "Items are loaded into the marketplace rather than punched out to the supplier site",
+        priority: "Content quality, SKU hygiene, and contract alignment matter most",
+        motion: "Sell the catalog-operating model, not just the product line"
       }
     ],
     coaching: [
       "The rep should ask how the requirement will actually be bought before she starts solutioning too deeply.",
-      "She should distinguish direct federal procurement from M&O prime and subcontract motions.",
+      "She should distinguish direct federal procurement from M&O prime, ICPT, SCMC, and subcontract motions.",
       "She should recognize that Q and L language is not optional vocabulary in DOE conversations.",
+      "She should separate punch-out and hosted marketplace motions because the growth strategy and control points differ.",
       "She should bring CTG in before security, architecture, and contract-vehicle questions become blockers."
     ],
-    question: "What is usually the most practical route for many DOE opportunities?",
+    question: "What should the rep clarify when a site says it buys through a marketplace?",
     options: [
-      "Direct manufacturer-to-government every time",
-      "M&O prime or subcontract pathway with CTG engaged early",
-      "Avoid procurement until after the technical win"
+      "Whether the site uses a punch-out supplier-direct catalog or a hosted catalog",
+      "Whether procurement can be ignored until after technical approval",
+      "Whether every marketplace order is treated as a federal prime contract"
     ],
-    correctIndex: 1
+    correctIndex: 0
   },
   {
     id: "storage-environments",
