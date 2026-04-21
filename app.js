@@ -1838,7 +1838,7 @@ function renderModuleDeepDive(fragment, module) {
     priorityHeading.textContent = module.priorityHeading || "Priority Order";
     module.priorityOrder.forEach((item) => {
       const li = document.createElement("li");
-      li.innerHTML = `<strong>${item.account}</strong> - ${item.note}`;
+      li.innerHTML = `<strong>${formatPriorityLabel(item.account)}</strong> - ${item.note}`;
       priorityList.appendChild(li);
     });
   }
@@ -1935,7 +1935,7 @@ function renderScenario() {
   const stepList = document.createElement("ol");
   stepList.className = "plain-list";
   const scenarioSteps = selectedModule.priorityOrder?.length
-    ? selectedModule.priorityOrder.map((item) => `${item.account}: ${item.note}`)
+    ? selectedModule.priorityOrder.map((item) => `${formatPriorityLabel(item.account)}: ${item.note}`)
     : scenarioWalkthrough.steps;
   scenarioSteps.forEach((step) => {
     const item = document.createElement("li");
@@ -2023,6 +2023,10 @@ function confidenceLabel(value) {
     5: "5 - Ready"
   };
   return labels[value];
+}
+
+function formatPriorityLabel(label) {
+  return String(label).replace(/^\d+\.\s*/, "");
 }
 
 function getResumeModuleId() {
