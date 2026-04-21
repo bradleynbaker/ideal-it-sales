@@ -118,15 +118,90 @@ const modules = [
     id: "procurement",
     number: 2,
     title: "Procurement Pathways & Acronyms",
-    outcome: "Can follow DOE procurement conversations and explain how deals move.",
-    summary: "Build working fluency in FAR, TAA, Q Clearance, L Clearance, SCMC, primes, subcontractors, and lab-specific pathways, with CTG positioned as the execution partner.",
-    scenario: "A program lead says the requirement may flow through a prime with restricted access and asks whether your team has the right partner structure already in place.",
-    say: "We can stay aligned with the lab's acquisition path and bring CTG in now so the technical and contracting motions stay synchronized from the start.",
-    question: "What is the most useful seller behavior here?",
+    outcome: "Understands how DOE deals move through federal, M&O, subcontract, and clearance-heavy pathways.",
+    summary: "Build working fluency in FAR, TAA, Q and L clearances, SCMC, primes, subcontractors, and DOE's Management and Operating contractor model so procurement conversations stop feeling opaque.",
+    scenario: "A DOE contact says the requirement may move through a site prime, security requirements are still being assessed, and your team needs the right partner structure before the deal advances.",
+    say: "We want to stay aligned with the actual acquisition path, so let's confirm whether this will move as a federal buy, through an M&O prime, or as a subcontract motion and bring CTG in now.",
+    mustKnow: [
+      "The FAR is the primary regulation for executive-agency acquisition of supplies and services with appropriated funds.",
+      "DOE is unusual because most of its procurement base flows through Management and Operating contractors, not just direct federal prime awards.",
+      "For many DOE opportunities, the practical path is prime-to-sub rather than direct manufacturer-to-government.",
+      "DOE uses L and Q access authorizations instead of the more familiar Secret and Top Secret language used elsewhere.",
+      "SCMC matters because it simplifies buying and creates multi-site commodity agreements for DOE Environmental Management and NNSA prime contractors."
+    ],
+    priorityHeading: "How Deals Usually Move",
+    priorityOrder: [
+      { account: "1. Qualify the Path", note: "Is this a direct federal acquisition, an M&O prime-led buy, or a subcontracting motion?" },
+      { account: "2. Confirm Security", note: "Determine early whether L or Q access, cleared personnel, or cleared facilities will shape the pursuit." },
+      { account: "3. Map the Prime", note: "Identify which site prime, integrator, or contract vehicle controls execution." },
+      { account: "4. Bring CTG Early", note: "CTG should be involved before architecture, compliance, and execution details harden." },
+      { account: "5. Validate TAA", note: "Confirm country-of-origin and supply-chain compliance before the deal gets late-stage attention." },
+      { account: "6. Check SCMC", note: "Ask whether an SCMC agreement or enterprise sourcing motion affects how the buy will happen." }
+    ],
+    comparisonHeading: "Acronyms And Pathways",
+    comparisonColumns: ["Term", "What It Means", "Why The Seller Cares", "Field Signal", "Action"],
+    comparisonRows: [
+      {
+        account: "FAR",
+        category: "Federal Acquisition Regulation",
+        mission: "Baseline procurement rule set for executive agencies",
+        priority: "Federal rules are in play",
+        motion: "Do not improvise around contracting policy"
+      },
+      {
+        account: "TAA",
+        category: "Trade Agreements Act compliance",
+        mission: "Country-of-origin can affect eligibility",
+        priority: "Hardware sourcing can become a blocker",
+        motion: "Validate compliance before late-stage quoting"
+      },
+      {
+        account: "L Clearance",
+        category: "DOE access authorization roughly aligned to Secret-level background/access needs",
+        mission: "May be enough for lower classified requirements",
+        priority: "The opportunity is not fully open but may not require Q",
+        motion: "Check role-by-role access needs early"
+      },
+      {
+        account: "Q Clearance",
+        category: "DOE access authorization roughly aligned to Top Secret and required for some Restricted Data access",
+        mission: "Critical in many NNSA and Restricted Data environments",
+        priority: "The opportunity may need cleared people, facilities, or partners",
+        motion: "Escalate partner and staffing planning immediately"
+      },
+      {
+        account: "SCMC",
+        category: "Supply Chain Management Center",
+        mission: "Strategic sourcing program for EM and NNSA prime contractors",
+        priority: "Enterprise agreements may shape the buying path",
+        motion: "Ask if an existing sourcing channel already exists"
+      },
+      {
+        account: "M&O Prime",
+        category: "Management and Operating contractor",
+        mission: "DOE's dominant operating model across many sites",
+        priority: "Most DOE small-business dollars flow through these primes",
+        motion: "Win the prime-led pathway, not just the end-user interest"
+      },
+      {
+        account: "Subcontract",
+        category: "Partner or supplier role under a prime",
+        mission: "Often the real route into DOE execution",
+        priority: "CTG and site primes become central to the deal",
+        motion: "Align to the prime's execution model early"
+      }
+    ],
+    coaching: [
+      "The rep should ask how the requirement will actually be bought before she starts solutioning too deeply.",
+      "She should distinguish direct federal procurement from M&O prime and subcontract motions.",
+      "She should recognize that Q and L language is not optional vocabulary in DOE conversations.",
+      "She should bring CTG in before security, architecture, and contract-vehicle questions become blockers."
+    ],
+    question: "What is usually the most practical route for many DOE opportunities?",
     options: [
-      "Wait until pricing is final before involving CTG",
-      "Understand the pathway and engage CTG early to support execution",
-      "Avoid procurement discussions because they are for legal teams only"
+      "Direct manufacturer-to-government every time",
+      "M&O prime or subcontract pathway with CTG engaged early",
+      "Avoid procurement until after the technical win"
     ],
     correctIndex: 1
   },
@@ -504,9 +579,11 @@ function renderModuleDeepDive(fragment, module) {
   }
 
   const priorityBlock = fragment.querySelector(".account-priority");
+  const priorityHeading = fragment.querySelector(".priority-heading");
   const priorityList = fragment.querySelector(".priority-list");
   if (module.priorityOrder?.length) {
     priorityBlock.hidden = false;
+    priorityHeading.textContent = module.priorityHeading || "Priority Order";
     module.priorityOrder.forEach((item) => {
       const li = document.createElement("li");
       li.innerHTML = `<strong>${item.account}</strong> - ${item.note}`;
@@ -527,26 +604,36 @@ function renderModuleDeepDive(fragment, module) {
   }
 
   const comparisonBlock = fragment.querySelector(".comparison-detail");
+  const comparisonHeading = fragment.querySelector(".comparison-heading");
+  const comparisonHeaderRow = fragment.querySelector(".comparison-header-row");
   const comparisonBody = fragment.querySelector(".comparison-table-body");
   if (module.comparisonRows?.length) {
     comparisonBlock.hidden = false;
+    comparisonHeading.textContent = module.comparisonHeading || "Comparison";
+    if (module.comparisonColumns?.length) {
+      comparisonHeaderRow.innerHTML = "";
+      module.comparisonColumns.forEach((column) => {
+        const th = document.createElement("th");
+        th.textContent = column;
+        comparisonHeaderRow.appendChild(th);
+      });
+    }
     module.comparisonRows.forEach((row) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><strong>${row.account}</strong></td>
-        <td>${row.category}</td>
-        <td>${row.mission}</td>
-        <td>${row.priority}</td>
-        <td>${row.motion}</td>
-      `;
+      const cells = [row.account, row.category, row.mission, row.priority, row.motion];
+      tr.innerHTML = cells
+        .map((cell, index) => (index === 0 ? `<td><strong>${cell}</strong></td>` : `<td>${cell}</td>`))
+        .join("");
       comparisonBody.appendChild(tr);
     });
   }
 
   const coachingBlock = fragment.querySelector(".coaching-detail");
+  const coachingHeading = fragment.querySelector(".coaching-heading");
   const coachingList = fragment.querySelector(".coaching-list");
   if (module.coaching?.length) {
     coachingBlock.hidden = false;
+    coachingHeading.textContent = module.coachingHeading || "Manager Review";
     module.coaching.forEach((item) => {
       const li = document.createElement("li");
       li.textContent = item;
