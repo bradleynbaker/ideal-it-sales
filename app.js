@@ -613,7 +613,10 @@ function getDefaultState() {
       quizAnswers: quizQuestions.map(() => null)
     };
   });
-  return { moduleState };
+  return {
+    selectedModuleId: modules[0]?.id || null,
+    moduleState
+  };
 }
 
 function loadState() {
@@ -624,9 +627,11 @@ function loadState() {
 
   try {
     const parsed = JSON.parse(raw);
+    const defaultState = getDefaultState();
     return {
+      selectedModuleId: parsed.selectedModuleId || defaultState.selectedModuleId,
       moduleState: {
-        ...getDefaultState().moduleState,
+        ...defaultState.moduleState,
         ...parsed.moduleState
       }
     };
@@ -694,106 +699,136 @@ function getQuizCorrectCount(moduleId) {
   return questions.reduce((count, question, index) => count + (answers[index] === question.correctIndex ? 1 : 0), 0);
 }
 
-function renderModules() {
-  const moduleGrid = document.getElementById("moduleGrid");
-  const template = document.getElementById("moduleCardTemplate");
-  moduleGrid.innerHTML = "";
+function getSelectedModule() {
+  return modules.find((module) => module.id === state.selectedModuleId) || modules[0];
+}
+
+function renderModuleNavigation() {
+  const moduleNav = document.getElementById("moduleNav");
+  const template = document.getElementById("moduleNavItemTemplate");
+  moduleNav.innerHTML = "";
 
   modules.forEach((module) => {
     const fragment = template.content.cloneNode(true);
-    const card = fragment.querySelector(".module-card");
-    const record = state.moduleState[module.id];
+    const button = fragment.querySelector(".module-nav-item");
     const status = getModuleStatus(module.id);
-    const quizQuestions = getQuizQuestions(module);
-    const quizAnswers = getQuizAnswers(record, quizQuestions.length);
 
-    fragment.querySelector(".module-kicker").textContent = `Module ${module.number}`;
-    fragment.querySelector(".module-title").textContent = module.title;
-    fragment.querySelector(".module-outcome").textContent = module.outcome;
-    fragment.querySelector(".module-summary").textContent = module.summary;
-    fragment.querySelector(".module-scenario").textContent = module.scenario;
-    fragment.querySelector(".say-example").textContent = module.say;
+    fragment.querySelector(".module-nav-kicker").textContent = `Module ${module.number}`;
+    fragment.querySelector(".module-nav-title").textContent = module.title;
+    fragment.querySelector(".module-nav-outcome").textContent = module.outcome;
+    fragment.querySelector(".module-nav-status").textContent = status.label;
 
-    if (module.number === 1) {
-      card.classList.add("featured");
+    if (module.id === state.selectedModuleId) {
+      button.classList.add("active");
     }
 
-    renderModuleDeepDive(fragment, module);
-
-    const statusPill = fragment.querySelector(".status-pill");
-    statusPill.textContent = status.label;
-    statusPill.classList.add(status.className);
-
-    const slider = fragment.querySelector(".confidence-slider");
-    const confidenceValue = fragment.querySelector(".confidence-value");
-    slider.value = record.confidence;
-    confidenceValue.textContent = confidenceLabel(record.confidence);
-    slider.addEventListener("input", (event) => {
-      state.moduleState[module.id].confidence = Number(event.target.value);
+    button.addEventListener("click", () => {
+      state.selectedModuleId = module.id;
       saveState();
       renderAll();
+      document.getElementById("moduleDetail")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    const quizList = fragment.querySelector(".quiz-list");
-    quizQuestions.forEach((question, questionIndex) => {
-      const quizItem = document.createElement("div");
-      quizItem.className = "quiz-item";
+    moduleNav.appendChild(fragment);
+  });
+}
 
-      const quizMeta = document.createElement("p");
-      quizMeta.className = "quiz-meta";
-      quizMeta.textContent = `Question ${questionIndex + 1}`;
+function renderSelectedModule() {
+  const moduleDetail = document.getElementById("moduleDetail");
+  const template = document.getElementById("moduleCardTemplate");
+  const module = getSelectedModule();
+  const fragment = template.content.cloneNode(true);
+  const card = fragment.querySelector(".module-card");
+  const record = state.moduleState[module.id];
+  const status = getModuleStatus(module.id);
+  const quizQuestions = getQuizQuestions(module);
+  const quizAnswers = getQuizAnswers(record, quizQuestions.length);
 
-      const prompt = document.createElement("p");
-      prompt.className = "quiz-question";
-      prompt.textContent = question.question;
+  moduleDetail.innerHTML = "";
+  document.getElementById("selectedModuleHeading").textContent = `Module ${module.number}: ${module.title}`;
 
-      const optionsContainer = document.createElement("div");
-      optionsContainer.className = "quiz-options";
+  fragment.querySelector(".module-kicker").textContent = `Module ${module.number}`;
+  fragment.querySelector(".module-title").textContent = module.title;
+  fragment.querySelector(".module-outcome").textContent = module.outcome;
+  fragment.querySelector(".module-summary").textContent = module.summary;
+  fragment.querySelector(".module-scenario").textContent = module.scenario;
+  fragment.querySelector(".say-example").textContent = module.say;
 
-      question.options.forEach((option, optionIndex) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "quiz-option";
-        button.textContent = option;
+  renderModuleDeepDive(fragment, module);
 
-        if (quizAnswers[questionIndex] !== null) {
-          if (optionIndex === question.correctIndex) {
-            button.classList.add("correct");
-          } else if (optionIndex === quizAnswers[questionIndex]) {
-            button.classList.add("incorrect");
-          }
+  const statusPill = fragment.querySelector(".status-pill");
+  statusPill.textContent = status.label;
+  statusPill.classList.add(status.className);
+
+  const slider = fragment.querySelector(".confidence-slider");
+  const confidenceValue = fragment.querySelector(".confidence-value");
+  slider.value = record.confidence;
+  confidenceValue.textContent = confidenceLabel(record.confidence);
+  slider.addEventListener("input", (event) => {
+    state.moduleState[module.id].confidence = Number(event.target.value);
+    saveState();
+    renderAll();
+  });
+
+  const quizList = fragment.querySelector(".quiz-list");
+  quizQuestions.forEach((question, questionIndex) => {
+    const quizItem = document.createElement("div");
+    quizItem.className = "quiz-item";
+
+    const quizMeta = document.createElement("p");
+    quizMeta.className = "quiz-meta";
+    quizMeta.textContent = `Question ${questionIndex + 1}`;
+
+    const prompt = document.createElement("p");
+    prompt.className = "quiz-question";
+    prompt.textContent = question.question;
+
+    const optionsContainer = document.createElement("div");
+    optionsContainer.className = "quiz-options";
+
+    question.options.forEach((option, optionIndex) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "quiz-option";
+      button.textContent = option;
+
+      if (quizAnswers[questionIndex] !== null) {
+        if (optionIndex === question.correctIndex) {
+          button.classList.add("correct");
+        } else if (optionIndex === quizAnswers[questionIndex]) {
+          button.classList.add("incorrect");
         }
+      }
 
-        button.addEventListener("click", () => {
-          const nextAnswers = getQuizAnswers(state.moduleState[module.id], quizQuestions.length);
-          nextAnswers[questionIndex] = optionIndex;
-          state.moduleState[module.id].quizAnswers = nextAnswers;
-          saveState();
-          renderAll();
-        });
-
-        optionsContainer.appendChild(button);
+      button.addEventListener("click", () => {
+        const nextAnswers = getQuizAnswers(state.moduleState[module.id], quizQuestions.length);
+        nextAnswers[questionIndex] = optionIndex;
+        state.moduleState[module.id].quizAnswers = nextAnswers;
+        saveState();
+        renderAll();
       });
 
-      quizItem.append(quizMeta, prompt, optionsContainer);
-      quizList.appendChild(quizItem);
+      optionsContainer.appendChild(button);
     });
 
-    const markCompleteButton = fragment.querySelector(".mark-complete-button");
-    markCompleteButton.textContent = record.complete ? "Completed" : "Mark Complete";
-    markCompleteButton.disabled = record.complete;
-    markCompleteButton.addEventListener("click", () => {
-      state.moduleState[module.id].complete = true;
-      saveState();
-      renderAll();
-    });
-
-    if (record.complete) {
-      card.style.borderColor = "rgba(47, 143, 82, 0.32)";
-    }
-
-    moduleGrid.appendChild(fragment);
+    quizItem.append(quizMeta, prompt, optionsContainer);
+    quizList.appendChild(quizItem);
   });
+
+  const markCompleteButton = fragment.querySelector(".mark-complete-button");
+  markCompleteButton.textContent = record.complete ? "Completed" : "Mark Complete";
+  markCompleteButton.disabled = record.complete;
+  markCompleteButton.addEventListener("click", () => {
+    state.moduleState[module.id].complete = true;
+    saveState();
+    renderAll();
+  });
+
+  if (record.complete) {
+    card.style.borderColor = "rgba(47, 143, 82, 0.32)";
+  }
+
+  moduleDetail.appendChild(fragment);
 }
 
 function renderModuleDeepDive(fragment, module) {
@@ -873,26 +908,37 @@ function renderModuleDeepDive(fragment, module) {
 }
 
 function renderScenario() {
+  const selectedModule = getSelectedModule();
   const panel = document.getElementById("scenarioPanel");
   panel.innerHTML = "";
+  document.getElementById("scenarioHeading").textContent = `${selectedModule.title} Scenario`;
 
   const wrapper = document.createElement("article");
   wrapper.className = "scenario-card";
 
   const tag = document.createElement("div");
   tag.className = "scenario-tag";
-  tag.textContent = scenarioWalkthrough.tag;
+  tag.textContent = `Module ${selectedModule.number} Walkthrough`;
 
   const title = document.createElement("h3");
-  title.textContent = scenarioWalkthrough.title;
+  title.textContent = selectedModule.title;
 
   const overview = document.createElement("p");
   overview.className = "module-summary";
-  overview.textContent = scenarioWalkthrough.overview;
+  overview.textContent = selectedModule.scenario;
 
   const statGrid = document.createElement("div");
   statGrid.className = "scenario-grid";
-  scenarioWalkthrough.stats.forEach((stat) => {
+  const selectedStats = [
+    { label: "Outcome", value: selectedModule.outcome },
+    { label: "Confidence", value: confidenceLabel(state.moduleState[selectedModule.id].confidence) },
+    {
+      label: "Quiz Score",
+      value: `${getQuizCorrectCount(selectedModule.id)}/${getQuizQuestions(selectedModule).length} correct`
+    },
+    { label: "Status", value: getModuleStatus(selectedModule.id).label }
+  ];
+  selectedStats.forEach((stat) => {
     const statCard = document.createElement("div");
     statCard.className = "scenario-stat";
     statCard.innerHTML = `<span>${stat.label}</span><strong>${stat.value}</strong>`;
@@ -901,7 +947,10 @@ function renderScenario() {
 
   const stepList = document.createElement("ol");
   stepList.className = "plain-list";
-  scenarioWalkthrough.steps.forEach((step) => {
+  const scenarioSteps = selectedModule.priorityOrder?.length
+    ? selectedModule.priorityOrder.map((item) => `${item.account}: ${item.note}`)
+    : scenarioWalkthrough.steps;
+  scenarioSteps.forEach((step) => {
     const item = document.createElement("li");
     item.textContent = step;
     stepList.appendChild(item);
@@ -990,14 +1039,15 @@ function confidenceLabel(value) {
 }
 
 function renderAll() {
-  renderModules();
+  renderModuleNavigation();
+  renderSelectedModule();
   renderScenario();
   renderSnapshot();
   renderDashboard();
 }
 
 document.getElementById("resumeButton").addEventListener("click", () => {
-  document.querySelector(".module-card")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("moduleDetail")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 document.getElementById("resetButton").addEventListener("click", () => {

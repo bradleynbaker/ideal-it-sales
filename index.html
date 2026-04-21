@@ -43,12 +43,24 @@
     </header>
 
     <main class="main-grid">
+      <aside class="module-nav-column">
+        <section class="panel nav-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Training Modules</p>
+              <h2>Review Any Module</h2>
+            </div>
+          </div>
+          <div id="moduleNav" class="module-nav"></div>
+        </section>
+      </aside>
+
       <section class="content-column">
         <section class="panel section-panel">
           <div class="section-heading">
             <div>
-              <p class="section-label">Training Modules</p>
-              <h2>15 modules built from the PRD</h2>
+              <p class="section-label">Selected Module</p>
+              <h2 id="selectedModuleHeading">Module Review</h2>
             </div>
             <div class="progress-inline">
               <span id="overallProgressLabel">0% complete</span>
@@ -57,14 +69,14 @@
               </div>
             </div>
           </div>
-          <div id="moduleGrid" class="module-grid"></div>
+          <div id="moduleDetail" class="module-detail"></div>
         </section>
 
         <section class="panel section-panel">
           <div class="section-heading">
             <div>
               <p class="section-label">Scenario Walkthrough</p>
-              <h2>CRM-style field simulation</h2>
+              <h2 id="scenarioHeading">Focused Review Scenario</h2>
             </div>
           </div>
           <div id="scenarioPanel" class="scenario-panel"></div>
@@ -169,6 +181,17 @@
         <button class="secondary-button mark-complete-button">Mark Complete</button>
       </div>
     </article>
+  </template>
+
+  <template id="moduleNavItemTemplate">
+    <button type="button" class="module-nav-item">
+      <div class="module-nav-top">
+        <span class="module-nav-kicker"></span>
+        <span class="module-nav-status"></span>
+      </div>
+      <strong class="module-nav-title"></strong>
+      <span class="module-nav-outcome"></span>
+    </button>
   </template>
 
   <script src="app.js"></script>
