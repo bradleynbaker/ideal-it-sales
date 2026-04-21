@@ -25,6 +25,31 @@ Then open:
 http://localhost:3000
 ```
 
+## Send To Someone Else
+
+The easiest handoff is to zip the whole project folder and send the zip.
+
+The recipient has two ways to run it:
+
+1. Simplest:
+   Open `index.html` in a modern browser.
+   This is the easiest option for a quick review on Mac or Windows.
+
+2. Full local app behavior:
+   Install Node.js, unzip the folder, open a terminal in the project folder, and run:
+
+```bash
+npm start
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+Use the Node.js option if they want the app to behave more like a local web app, including service-worker support.
+
 ## Portability Model
 
 The recommended approach is:
