@@ -1,0 +1,11 @@
+{
+  "name": "doe-ai-infrastructure-sales-training",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static training platform for DOE-focused NetApp and CTG federal sales enablement.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check app.js && node --check server.js"
+  }
+}

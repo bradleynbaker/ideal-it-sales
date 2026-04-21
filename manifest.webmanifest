@@ -1,0 +1,17 @@
+{
+  "name": "DOE AI Infrastructure Sales Training",
+  "short_name": "DOE Sales Training",
+  "description": "Portable DOE-focused NetApp and CTG federal sales training platform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2efe8",
+  "theme_color": "#0d6b5f",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

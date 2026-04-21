@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOE AI Infrastructure Sales Training</title>
+  <meta name="theme-color" content="#0d6b5f">
+  <meta name="description" content="Portable DOE-focused NetApp and CTG federal sales training platform for new infrastructure sellers.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">DOE AI Infrastructure Sales Training</p>
+        <h1>Turn a strong seller into a DOE-capable infrastructure orchestrator.</h1>
+        <p class="hero-text">
+          NetApp-centric training designed for a new DOE-focused salesperson who knows how to sell,
+          but needs fast technical confidence, procurement fluency, and partner-led execution discipline.
+        </p>
+        <div class="hero-actions">
+          <button id="resumeButton" class="primary-button">Resume Training</button>
+          <button id="resetButton" class="secondary-button">Reset Progress</button>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <h2>Success Benchmarks</h2>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="metric-label">Meaningful DOE conversation</span>
+            <strong>&lt; 60 days</strong>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Qualified opportunity</span>
+            <strong>&lt; 90 days</strong>
+          </div>
+        </div>
+        <p class="panel-note">Design principle: she is not the engineer. She is the orchestrator.</p>
+      </aside>
+    </header>
+
+    <main class="main-grid">
+      <section class="content-column">
+        <section class="panel section-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Training Modules</p>
+              <h2>15 modules built from the PRD</h2>
+            </div>
+            <div class="progress-inline">
+              <span id="overallProgressLabel">0% complete</span>
+              <div class="progress-track">
+                <div id="overallProgressBar" class="progress-bar"></div>
+              </div>
+            </div>
+          </div>
+          <div id="moduleGrid" class="module-grid"></div>
+        </section>
+
+        <section class="panel section-panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">Scenario Walkthrough</p>
+              <h2>CRM-style field simulation</h2>
+            </div>
+          </div>
+          <div id="scenarioPanel" class="scenario-panel"></div>
+        </section>
+      </section>
+
+      <aside class="sidebar-column">
+        <section class="panel sidebar-panel">
+          <p class="section-label">Learner Snapshot</p>
+          <h2>Your scorecard</h2>
+          <div id="snapshotStats" class="stats-list"></div>
+        </section>
+
+        <section class="panel sidebar-panel">
+          <p class="section-label">Manager Visibility</p>
+          <h2>Coaching dashboard</h2>
+          <div id="managerDashboard" class="dashboard-list"></div>
+        </section>
+
+        <section class="panel sidebar-panel">
+          <p class="section-label">Critical Behaviors</p>
+          <h2>Non-negotiables</h2>
+          <ul class="plain-list">
+            <li>Bring CTG in early and often.</li>
+            <li>Align pipeline to DOE fiscal timing.</li>
+            <li>Avoid compliance gray areas.</li>
+            <li>Position NetApp by environment, not by buzzword.</li>
+            <li>Build three champions per account.</li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <template id="moduleCardTemplate">
+    <article class="module-card">
+      <div class="module-card-top">
+        <div>
+          <p class="module-kicker"></p>
+          <h3 class="module-title"></h3>
+        </div>
+        <span class="status-pill"></span>
+      </div>
+      <p class="module-outcome"></p>
+      <div class="detail-block">
+        <h4>Concept Overview</h4>
+        <p class="module-summary"></p>
+      </div>
+      <div class="detail-block">
+        <h4>Real DOE Scenario</h4>
+        <p class="module-scenario"></p>
+      </div>
+      <div class="detail-block">
+        <h4>What To Say</h4>
+        <blockquote class="say-example"></blockquote>
+      </div>
+      <div class="detail-block module-highlights" hidden>
+        <h4>Must Know</h4>
+        <ul class="plain-list module-highlights-list"></ul>
+      </div>
+      <div class="detail-block account-priority" hidden>
+        <h4>Priority Order</h4>
+        <ol class="plain-list priority-list"></ol>
+      </div>
+      <div class="detail-block subaccount-detail" hidden>
+        <h4>Sub-Accounts</h4>
+        <div class="subaccount-grid"></div>
+      </div>
+      <div class="detail-block comparison-detail" hidden>
+        <h4>West Account Comparison</h4>
+        <div class="table-wrap">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Category</th>
+                <th>Mission Lens</th>
+                <th>Priority</th>
+                <th>Sales Motion</th>
+              </tr>
+            </thead>
+            <tbody class="comparison-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="detail-block coaching-detail" hidden>
+        <h4>Manager Review</h4>
+        <ul class="plain-list coaching-list"></ul>
+      </div>
+      <div class="detail-block">
+        <h4>Confidence</h4>
+        <div class="confidence-row">
+          <input class="confidence-slider" type="range" min="1" max="5" step="1">
+          <span class="confidence-value"></span>
+        </div>
+      </div>
+      <div class="quiz-block">
+        <h4>Knowledge Check</h4>
+        <p class="quiz-question"></p>
+        <div class="quiz-options"></div>
+      </div>
+      <div class="card-actions">
+        <button class="secondary-button mark-complete-button">Mark Complete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
